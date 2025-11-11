@@ -34,7 +34,7 @@ $(document).ready(function() {
             });
 
             $('#lista-agendamentos').append(`
-            <tr>
+            <tr id="tr-agendamento-${a.id}">
                 <td>${dataFormatada}</td>
                 <td>${a.hora}</td>
                 <td>${a.nome}</td>
@@ -95,6 +95,7 @@ $(document).ready(function() {
 
   // === Editar ===
   $(document).on('click', '.edit', function() {
+    
     const id = $(this).data('id');
 
     $.ajax({
@@ -107,7 +108,9 @@ $(document).ready(function() {
         $('#servico').val(a.servico);
         const dataFormatada = new Date(a.data).toISOString().split('T')[0];
         $('#data').val(dataFormatada);
-        $('#btn-limpar').prop('disabled', false);      
+        $('#btn-limpar').prop('disabled', false);
+        $('tr').css("background-color", "#FFF");      
+        $(`#tr-agendamento-${a.id}`).css("background-color", "#c9c9c9");
         }
     });
   });
