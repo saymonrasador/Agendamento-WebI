@@ -161,8 +161,8 @@ $(document).ready(function() {
                 <td>${a.nome}</td>
                 <td>${a.servico}</td>
                 <td class="text-center">
-                <i class="edit bi bi-pencil-square text-primary me-2" style="cursor:pointer;" data-id="${a.id}"></i>
-                <i class="delete bi bi-trash text-danger" style="cursor:pointer;" data-id="${a.id}"></i>
+                <i class="edit bi bi-pencil-square" id="icon-pencil" data-id="${a.id}"></i>
+                <i class="delete bi bi-trash" id="icon-trash" data-id="${a.id}"></i>
                 </td>
             </tr>
             `);
@@ -235,7 +235,7 @@ $(document).ready(function() {
         method: 'GET',
         success: function(a) {
           $('tr').css("background-color", "#FFF");      
-          $(`#tr-agendamento-${a.id}`).css("background-color", "#c9c9c9");
+          $(`#tr-agendamento-${a.id}`).css("background-color", "#e0e1dd");
           $('#idAgendamento').val(a.id);
           $('#nome').val(a.nome);
           $('#hora').val(a.hora);
