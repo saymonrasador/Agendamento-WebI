@@ -103,12 +103,6 @@ function atualizarHorariosDisponiveis(dataSelecionada) {
     });
 }
 
-
-
-
-
-
-
 $(document).ready(function() {
 
     // === ANIMAÇÃO DO HEADER ===
@@ -214,6 +208,7 @@ $(document).ready(function() {
             $('#idAgendamento').val(''); 
             $('#btn-limpar').prop('disabled', true);
             resetarHorarios(); // Reseta os horários
+            $('#criar-editar-titulo').text("Criar Agendamento");
           }
         });
       } else {
@@ -236,6 +231,7 @@ $(document).ready(function() {
     // === Editar ===
     $(document).on('click', '.edit', function() {
       const id = $(this).data('id');
+      $('#criar-editar-titulo').text("Editar Agendamento");
 
       $.ajax({
         url: `${apiURL}/${id}`,
