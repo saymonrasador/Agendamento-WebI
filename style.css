@@ -110,10 +110,17 @@ thead {
   --bs-table-hover-color: #000;
   color: var(--bs-table-color);
   border-color: var(--bs-table-border-color);
+  display: table;
+  width: 100%;
+  table-layout: fixed;
 }
 
 th,
 td {
+  
+  white-space: nowrap;
+  overflow:hidden;
+  text-overflow: ellipsis;
   padding: 0.5rem 0.5rem;
   color: var(
     --bs-table-color-state,
@@ -127,6 +134,12 @@ td {
 
 td {
   background-color: rgba(0, 0, 0, 0) !important;
+}
+
+tr{
+    display: table;
+  width: 100%;
+  table-layout: fixed;
 }
 
 .card {
@@ -333,4 +346,114 @@ button:disabled {
 
 .toast-strong {
   margin-right: auto;
+}
+
+@media (max-width: 992px) {
+
+  header {
+    height: 120px;
+    padding: 1rem;
+  }
+
+  header h1 {
+    font-size: 2rem;
+  }
+
+  main {
+    flex-direction: column;
+    gap: 1rem;
+  }
+
+  .card {
+    width: 100%;
+  }
+
+  table {
+    font-size: 0.9rem;
+  }
+
+  th, td {
+    padding: 0.4rem;
+  }
+
+  button {
+    font-size: 0.9rem;
+    padding: 0.35rem 0.7rem;
+  }
+}
+
+
+@media (max-width: 768px) {
+
+  header {
+    height: 100px;
+  }
+
+  header h1 {
+    font-size: 1.6rem;
+  }
+
+  main {
+    padding-left: 1rem;
+    padding-right: 1rem;
+    margin-top: 120px;
+  }
+
+  .card {
+    width: 100%;
+  }
+
+  table {
+    white-space: nowrap;
+  }
+
+  th, td {
+    padding: 0.35rem;
+    font-size: 0.8rem;
+  }
+
+  button {
+    width: 100%;
+    margin-bottom: 0.5rem;
+  }
+
+  .form-field {
+    flex-direction: column;
+  }
+
+  #calendario {
+    width: 100%;
+  }
+}
+
+
+@media (max-width: 576px) {
+
+  header {
+    height: 80px;
+    padding: 0.5rem;
+  }
+
+  header h1 {
+    font-size: 1.3rem;
+  }
+
+  table {
+    font-size: 0.75rem;
+  }
+
+  th, td {
+    padding: 0.3rem;
+  }
+
+  button {
+    width: 100%;
+    font-size: 0.85rem;
+  }
+
+  .toast-container {
+    width: 100%;
+    right: 0;
+    padding: 0.5rem;
+  }
 }
