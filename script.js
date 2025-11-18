@@ -36,6 +36,7 @@ function atualizarHorariosDisponiveis(dataSelecionada) {
     $('#hora').prop('disabled', true);
 
     $.ajax({
+      
         url: `${apiURL}?data=${dataSelecionada}&status=confirmado`,
         method: 'GET',
         success: function(agendamentosDoDia) {
@@ -93,6 +94,9 @@ function atualizarHorariosDisponiveis(dataSelecionada) {
             }
 
         },
+        statusCode:{404: function() {
+          resetarHorarios('Selecione um horário');
+      }},
         error: function() {
             $('#horario-feedback').text('Erro ao verificar horários.');
         },
