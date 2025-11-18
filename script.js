@@ -111,6 +111,13 @@ function atualizarHorariosDisponiveis(dataSelecionada) {
 
 $(document).ready(function() {
 
+    // === ANIMAÇÃO DO HEADER ===
+    setTimeout(function() {
+        $('header').addClass('header-pequeno');
+        $('body').removeClass('loading');
+    }, 1000);
+
+    
     // === BLOQUEAR DATAS PASSADAS ===
     const today = new Date(); 
     const ano = today.getFullYear();
