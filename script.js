@@ -32,6 +32,7 @@ function atualizarHorariosDisponiveis(dataSelecionada, horarioSelecionado) {
     const idEmEdicao = $('#idAgendamento').val();
     
     $('#loading-horarios').show();
+    $('#horario-feedback').css("color", "#778da9");
     $('#horario-feedback').text('Verificando horários...');
     $('#hora').prop('disabled', true);
 
@@ -40,7 +41,6 @@ function atualizarHorariosDisponiveis(dataSelecionada, horarioSelecionado) {
         url: `${apiURL}?data=${dataSelecionada}&status=confirmado`,
         method: 'GET',
         success: function(agendamentosDoDia) {
-            
             resetarHorarios('Selecione um horário');
 
             $('#hora').val(horarioSelecionado);
@@ -90,9 +90,10 @@ function atualizarHorariosDisponiveis(dataSelecionada, horarioSelecionado) {
 
             if (totalOpcoes === totalDesabilitadas) {
                  $('#horario-feedback').text('Todos os horários ocupados/expirados para este dia.');
-                 $('#horario-feedback').color("red");
+                 $('#horario-feedback').css("color", "red");
             } else {
                  $('#horario-feedback').text('');
+                 $('#horario-feedback').css("color", "#778da9");
             }
 
         },
@@ -102,6 +103,7 @@ function atualizarHorariosDisponiveis(dataSelecionada, horarioSelecionado) {
       }},
         error: function() {
             $('#horario-feedback').text('Erro ao verificar horários.');
+            $('#horario-feedback').css("color", "red");
         },
         complete: function() {
             $('#loading-horarios').hide();
