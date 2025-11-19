@@ -28,7 +28,7 @@ function resetarHorarios(mensagem = 'Selecione uma data primeiro') {
 }
 
 // === NOVA FUNÇÃO: Atualizar horários disponíveis ===
-function atualizarHorariosDisponiveis(dataSelecionada) {
+function atualizarHorariosDisponiveis(dataSelecionada, horarioSelecionado) {
     const idEmEdicao = $('#idAgendamento').val();
     
     $('#loading-horarios').show();
@@ -43,6 +43,7 @@ function atualizarHorariosDisponiveis(dataSelecionada) {
             
             resetarHorarios('Selecione um horário');
 
+            $('#hora').val(horarioSelecionado);
             // --- LÓGICA DE HORÁRIO PASSADO (INÍCIO) ---
             const agora = new Date();
             const dataMinima = agora.toISOString().split('T')[0]; // Padrão YYYY-MM-DD
@@ -94,6 +95,7 @@ function atualizarHorariosDisponiveis(dataSelecionada) {
             }
 
         },
+        // Caso não encontre agendamento com a data, reseta os horários para o default
         statusCode:{404: function() {
           resetarHorarios('Selecione um horário');
       }},
@@ -136,7 +138,7 @@ $(document).ready(function() {
         const data = $(this).val();
         if (data) {
             // Chama a nova função de verificação
-            atualizarHorariosDisponiveis(data);
+            atualizarHorariosDisponiveis(data, null);
         } else {
             // Se a data for limpa, reseta os horários
             resetarHorarios();
@@ -245,7 +247,9 @@ $(document).ready(function() {
           $(`#tr-agendamento-${a.id}`).css("background-color", "#e0e1dd");
           $('#idAgendamento').val(a.id);
           $('#nome').val(a.nome);
-          $('#hora').val(a.hora);
+          const horarioFormatado = a.hora.replace(/[^0-9:]/g, "");
+          $(`#hora option[value="${horarioFormatado}"]`).text(horarioFormatado);
+          $('#hora').val(horarioFormatado);
           $('#servico').val(a.servico);
           const dataFormatada = new Date(a.data).toISOString().split('T')[0];
           $('#data').val(dataFormatada);
@@ -255,7 +259,7 @@ $(document).ready(function() {
           // === GATILHO NOVO ===
           // Ao carregar para editar, verifica os horários daquela data
           // para marcar outros horários como "Reservado"
-          atualizarHorariosDisponiveis(dataFormatada);
+          atualizarHorariosDisponiveis(dataFormatada, horarioFormatado);
         }
       });
     });

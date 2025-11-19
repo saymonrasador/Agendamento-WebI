@@ -223,6 +223,10 @@ i {
   margin-right: 0.5rem;
 }
 
+#horario-feedback{
+  color: red;
+}
+
 #btn-confirmar {
   font-weight: 700;
   --bs-btn-color: #fff;
