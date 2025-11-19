@@ -90,6 +90,7 @@ function atualizarHorariosDisponiveis(dataSelecionada, horarioSelecionado) {
 
             if (totalOpcoes === totalDesabilitadas) {
                  $('#horario-feedback').text('Todos os horários ocupados/expirados para este dia.');
+                 $('#horario-feedback').color("red");
             } else {
                  $('#horario-feedback').text('');
             }
