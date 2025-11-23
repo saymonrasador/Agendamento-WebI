@@ -1,5 +1,3 @@
-/* script.js (Versão com Verificação de Disponibilidade) */
-
 const apiURL = 'https://690bdd796ad3beba00f664bd.mockapi.io/agendamentos';
 
 // Notificações (Toasts)
@@ -167,7 +165,7 @@ $(document).ready(function() {
     $('#data').attr('min', dataMinima);
   
 
-    // === Habilita o botão 'Limpar' ao digitar ===
+    // === Habilita o botão 'Limpar' ao digitar no formulário ===
     $('#form-agendamento input, #form-agendamento select').on('input change', function() {
         $('#btn-limpar').prop('disabled', false);
     });
@@ -184,7 +182,7 @@ $(document).ready(function() {
     });
 
 
-    // === FUNÇÃO: Carregar agendamentos ===
+    // === READ (Renderizar tabela de agendamentos) ===
     function carregarAgendamentos() {
       $.ajax({
         url: apiURL,
@@ -216,14 +214,15 @@ $(document).ready(function() {
       });
     }
 
+
+    // Inicializa a tabela ao carregar a página
     carregarAgendamentos();
 
 
-    // === Criar ou editar agendamento ===
+    // === CREATE E UPDATE ===
     $('#form-agendamento').submit(function(e) {
       e.preventDefault();
 
-      // Verifica se o horário selecionado está desabilitado
       if ($('#hora option:selected').is(':disabled')) {
           mostrarNotificacao('Por favor, selecione um horário válido.');
           return; 
@@ -240,7 +239,7 @@ $(document).ready(function() {
       const id = $('#idAgendamento').val();
 
       if (id) {
-        // PUT - Atualizar
+        // Se tem ID, é UPDATE
         $.ajax({
           url: `${apiURL}/${id}`,
           method: 'PUT',
@@ -256,7 +255,7 @@ $(document).ready(function() {
           }
         });
       } else {
-        // POST - Criar
+        // Se não tem ID, é CREATE 
         $.ajax({
           url: apiURL,
           method: 'POST',
@@ -272,7 +271,8 @@ $(document).ready(function() {
       }
     });
 
-    // === Editar ===
+
+    // === PREPARAR PARA UPDATE (preencher formulário) ===
     $(document).on('click', '.edit', function() {
       const id = $(this).data('id');
       $('#criar-editar-titulo').text("Editar Agendamento");
@@ -301,8 +301,8 @@ $(document).ready(function() {
       });
     });
 
-    // === Excluir ===
-    // (O código desta função continua o mesmo de antes)
+
+    // === DELETE ===
     $(document).on('click', '.delete', function() {
       const id = $(this).data('id');
       if (confirm('Tem certeza que deseja excluir este agendamento?')) {
@@ -317,7 +317,8 @@ $(document).ready(function() {
       }
     });
 
-    // === Limpar formulário ===
+
+    // === Limpar formulário ao clicar no botão ===
     $('#btn-limpar').click(function() {
         e.preventDefault(); 
         
