@@ -10,7 +10,7 @@ function mostrarNotificacao(mensagem) {
     toast.show();
 }
 
-// === NOVA FUNÇÃO: Resetar o campo de horários ===
+// === FUNÇÃO: Resetar o campo de horários ===
 function resetarHorarios(mensagem = 'Selecione uma data primeiro') {
     // Limpa feedback, reabilita o select
     $('#horario-feedback').text('');
@@ -27,7 +27,8 @@ function resetarHorarios(mensagem = 'Selecione uma data primeiro') {
     });
 }
 
-// === NOVA FUNÇÃO: Atualizar horários disponíveis ===
+
+// === FUNÇÃO: Atualizar horários disponíveis ===
 function atualizarHorariosDisponiveis(dataSelecionada, horarioSelecionado) {
     const idEmEdicao = $('#idAgendamento').val();
     
@@ -73,7 +74,6 @@ function atualizarHorariosDisponiveis(dataSelecionada, horarioSelecionado) {
                         isPastTime = true;
                     }
                 }
-                // ============================================
 
                 // Atualiza a lógica de desabilitar
                 if (isReserved) {
@@ -112,16 +112,52 @@ function atualizarHorariosDisponiveis(dataSelecionada, horarioSelecionado) {
     });
 }
 
+
+
+
+
 $(document).ready(function() {
 
-    // === ANIMAÇÃO DO HEADER ===
+  // === FUNÇÃO: SISTEMA DE FILTRO NA TABELA ===
+  $('#filtro-nome, #filtro-data').on('keyup change', function() {
+      const termoNome = $('#filtro-nome').val().toLowerCase();
+      let termoData = $('#filtro-data').val();
+
+      if (termoData) {
+          const [ano, mes, dia] = termoData.split('-');
+          termoData = `${dia}/${mes}/${ano}`;
+      }
+
+      let encontrouAlgum = false;
+
+      $('#lista-agendamentos tr').filter(function() {
+          const dataRow = $(this).find('td:eq(0)').text();
+          const nomeRow = $(this).find('td:eq(2)').text().toLowerCase();
+          const matchNome = !termoNome || nomeRow.indexOf(termoNome) > -1;
+          const matchData = !termoData || dataRow === termoData;
+
+          const deveAparecer = matchNome && matchData;
+          $(this).toggle(deveAparecer);
+          if (deveAparecer) encontrouAlgum = true;
+      });
+
+      // Mostra mensagem se filtrou tudo e não sobrou nada
+      if (!encontrouAlgum) {
+          $('#msg-sem-resultados').show();
+      } else {
+          $('#msg-sem-resultados').hide();
+      }
+    });
+    
+
+    // === FUNÇÃO: Animação do header ===
     setTimeout(function() {
         $('header').addClass('header-pequeno');
         $('body').removeClass('loading');
     }, 1000);
 
     
-    // === BLOQUEAR DATAS PASSADAS ===
+    // === Bloquear datas passadas ===
     const today = new Date(); 
     const ano = today.getFullYear();
     const mes = String(today.getMonth() + 1).padStart(2, '0'); 
@@ -131,33 +167,32 @@ $(document).ready(function() {
     $('#data').attr('min', dataMinima);
   
 
-    // Habilita o botão 'Limpar' ao digitar
+    // === Habilita o botão 'Limpar' ao digitar ===
     $('#form-agendamento input, #form-agendamento select').on('input change', function() {
         $('#btn-limpar').prop('disabled', false);
     });
 
-    // === GATILHO NOVO: Ao mudar a data ===
+
+    // === Gatilho ao mudar a data ===
     $('#data').on('change', function() {
         const data = $(this).val();
         if (data) {
-            // Chama a nova função de verificação
             atualizarHorariosDisponiveis(data, null);
         } else {
-            // Se a data for limpa, reseta os horários
             resetarHorarios();
         }
     });
 
-    // === Carregar agendamentos (Função principal da lista) ===
+
+    // === FUNÇÃO: Carregar agendamentos ===
     function carregarAgendamentos() {
-      // (O código desta função continua o mesmo de antes)
       $.ajax({
         url: apiURL,
         method: 'GET',
         success: function(data) {
           $('#lista-agendamentos').empty();
           
-          data.sort((a, b) => new Date(b.data) - new Date(a.data));
+          data.sort((a, b) => new Date(a.data) - new Date(b.data));
 
           data.forEach(a => {
             const dataFormatada = new Date(a.data).toLocaleDateString('pt-BR', {
@@ -183,11 +218,11 @@ $(document).ready(function() {
 
     carregarAgendamentos();
 
+
     // === Criar ou editar agendamento ===
     $('#form-agendamento').submit(function(e) {
       e.preventDefault();
 
-      // === NOVA VALIDAÇÃO ===
       // Verifica se o horário selecionado está desabilitado
       if ($('#hora option:selected').is(':disabled')) {
           mostrarNotificacao('Por favor, selecione um horário válido.');
@@ -259,7 +294,6 @@ $(document).ready(function() {
           
           $('#btn-limpar').prop('disabled', false);
           
-          // === GATILHO NOVO ===
           // Ao carregar para editar, verifica os horários daquela data
           // para marcar outros horários como "Reservado"
           atualizarHorariosDisponiveis(dataFormatada, horarioFormatado);
@@ -285,19 +319,14 @@ $(document).ready(function() {
 
     // === Limpar formulário ===
     $('#btn-limpar').click(function() {
-      // 1. Impede o 'reset' padrão do HTML, que limpa a data
         e.preventDefault(); 
         
-        // 2. Limpa os campos manualmente
         $('#idAgendamento').val('');
         $('#nome').val('');
         $('#servico').val('');
         
-        // 3. Desabilita o próprio botão
         $(this).prop('disabled', true); 
         
-        // 4. Define a data para HOJE e força o 'change'
-        // Isso dispara a função 'atualizarHorariosDisponiveis' para hoje
         $('#data').val(dataMinima).trigger('change');
     });
 

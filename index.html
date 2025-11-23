@@ -20,6 +20,17 @@
         <div class="card-header">
             <h4>Agendamentos</h4> 
         </div>
+        
+        <div class="p-3 bg-light border-bottom">
+            <div class="row g-2">
+                <div class="col-md-7">
+                    <input type="text" id="filtro-nome" class="form-control form-control-sm" placeholder="🔍 Buscar por nome...">
+                </div>
+                <div class="col-md-5">
+                    <input type="date" id="filtro-data" class="form-control form-control-sm">
+                </div>
+            </div>
+        </div>
         <div class="card-bd-body">
             <div id="bd-agendamentos">
             <table>
@@ -29,12 +40,14 @@
                     <th>Hora</th>
                     <th>Nome</th>
                     <th>Serviço</th>
-                    <th>Ações</th>
-
+                    <th>Ações</th> 
                 </tr>
                 </thead>
                 <tbody id="lista-agendamentos"></tbody>
             </table>
+            <div id="msg-sem-resultados" class="text-center p-3 text-muted" style="display:none;">
+                Nenhum agendamento encontrado.
+            </div>
             </div>
         </div>
         </div>

@@ -117,9 +117,8 @@ thead {
 
 th,
 td {
-  
   white-space: nowrap;
-  overflow:hidden;
+  overflow: hidden;
   text-overflow: ellipsis;
   padding: 0.5rem 0.5rem;
   color: var(
@@ -136,8 +135,8 @@ td {
   background-color: rgba(0, 0, 0, 0) !important;
 }
 
-tr{
-    display: table;
+tr {
+  display: table;
   width: 100%;
   table-layout: fixed;
 }
@@ -349,7 +348,6 @@ button:disabled {
 }
 
 @media (max-width: 992px) {
-
   header {
     height: 120px;
     padding: 1rem;
@@ -372,7 +370,8 @@ button:disabled {
     font-size: 0.9rem;
   }
 
-  th, td {
+  th,
+  td {
     padding: 0.4rem;
   }
 
@@ -382,9 +381,7 @@ button:disabled {
   }
 }
 
-
 @media (max-width: 768px) {
-
   header {
     height: 100px;
   }
@@ -407,7 +404,8 @@ button:disabled {
     white-space: nowrap;
   }
 
-  th, td {
+  th,
+  td {
     padding: 0.35rem;
     font-size: 0.8rem;
   }
@@ -426,9 +424,7 @@ button:disabled {
   }
 }
 
-
 @media (max-width: 576px) {
-
   header {
     height: 80px;
     padding: 0.5rem;
@@ -442,7 +438,8 @@ button:disabled {
     font-size: 0.75rem;
   }
 
-  th, td {
+  th,
+  td {
     padding: 0.3rem;
   }
 
